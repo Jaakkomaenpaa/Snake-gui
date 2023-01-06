@@ -1,0 +1,51 @@
+Peliohjeet ja muuta infoa:
+
+Peli on perinteinen matopeli, jossa madolla pyritään syömään mahdollisimman monta
+ruokaa ja mato kasvaa aina kun se syö ruuan. Matoa voi ohjata WASD -näppäimillä
+(W = ylös, A = vasemmalle, S = alas ja D = oikealle). 
+
+Peli toimii niin, että matoa liikutetaan valmiiksi annetussa koodipohjassa, josta
+haetaan käyttöliittymään kaikki tarvittavat tiedot, kuten madon eri osien ja ruuan
+sijainnit, tai voitto- ja häviötilanteet.
+
+Peli aloitetaan antamalla seed-luku (vapaaehtoinen; jos jätetään tyhjäksi, peli
+aloitetaan default seed-luvulla) ja valitsemalla pudotusvalikoista pelialueen
+korkeus ja leveys. Tämän jälkeen painetaan "Start game" -napista. Tämä laittaa
+QTimer -olion käyntiin, joka puolestaan antaa tietyin väliajoin (400ms) signaalin 
+pelin pääloopille, joka löytyy mainWindow.cpp -tiedostosta nimellä playGame().
+Mato alkaa liikkumaan, kun sille annetaan suunta.
+
+Peli loppuu automaattisesti jos mato kuolee, eli osuu reunaan tai itseensä, tai
+jos voitat pelin, eli pelialue on "pelkkää matoa". Voittaessa pelialue muuttuu
+vihreäksi ja hävitessä punaiseksi. Voitosta tai häviöstä tulee myös ilmoitus 
+käyttöliittymän vasempaan reunaan.
+
+Pelin voi keskeyttää pausenapilla, jolloin timer-olio pysäytetään ja peliä voi 
+jatkaa continue -napista, jolloin se laitetaan uudelleen käyntiin. Kun peliä
+jatketaan pausen jälkeen, mato jatkaa kulkuaan viimeiseksi annettuun suuntaan.
+Kun peli on keskeytettynä, ilmestyy continue-napin alle teksti "Paused".
+
+Pelin voi aloittaa alusta reset-napista. Jos halutaan vaihtaa pelialueen dimensioita
+tai seed-lukua, täytyy painaa ensin pause -napista, jolloin qcombobox ja qlineedit
+-widgetit aktivoituvat. Käyttöliittymän napit ja tekstieditori menevät siis disabled
+-tilaan, jos niille ei ole käyttöä. Näin estetään näppäinkomentojen sekaantuminen
+widgeteihin.
+
+Pelissä on käytössä myös eräänlainen pisteenlaskusysteemi: aina kun mato syö ruuan,
+pistetili kasvaa yhdellä. Pistetili nollaantuu, kun peli resetoidaan, mato kuolee tai
+voitat pelin. Pisteet kuitenkin tallentuvat high scoreksi, jos ne ovat sillä hetkellä
+korkeimmat saadut pisteet. High scorea lasketaan kuitenkin vain paikallisesti, eli
+sitä ei tallenneta tiedostoon.
+
+Toteutetut lisäominaisuudet:
+
+- Peliruudun kokoa voi säätää käyttöliittymän kautta pudotusvalikoilla
+- Madon pää on esitetty piirrettynä png-kuvana
+- Pelissä on pistelasku
+- Pelissä on pause-nappula
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+user2|34
+user1|24
+guest|2
+Jaakko|2
