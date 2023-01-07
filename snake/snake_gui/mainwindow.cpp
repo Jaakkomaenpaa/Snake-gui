@@ -232,13 +232,16 @@ void MainWindow::playGame()
     {
         snake.pop_back();
         snake.pop_front();
-        int snakeIndex = 0;
+        unsigned int snakeIndex = 0;
         for (Point snakePoint : snake)
         {
-            snakeBody_.at(snakeIndex)->setPos(snakePoint.getXPos() * 10,
-                                              snakePoint.getYPos() * 10);
-            snakeBody_.at(snakeIndex)->show();
-            ++snakeIndex;
+            if (snakeIndex < snakeBody_.size())
+            {
+                snakeBody_.at(snakeIndex)->setPos(snakePoint.getXPos() * 10,
+                                                  snakePoint.getYPos() * 10);
+                snakeBody_.at(snakeIndex)->show();
+                ++snakeIndex;
+            }
         }
     }
 
@@ -318,6 +321,8 @@ void MainWindow::checkWinOrLoss()
         QBrush redBrush(Qt::red);
         winLoseLabel_->setText("You lost :(");
         gameArea_->setBackgroundBrush(redBrush);
+        saveScore();
+        getScores();
     }
     // Voitossa vihreäksi
     if (gameBoard_->gameWon())
@@ -325,13 +330,15 @@ void MainWindow::checkWinOrLoss()
         QBrush greenBrush(Qt::green);
         winLoseLabel_->setText("You won!");
         gameArea_->setBackgroundBrush(greenBrush);
+        saveScore();
+        getScores();
     }
 }
 
 bool MainWindow::eatsFood()
 {
     // Jos ruoka on liikkunut, eli se on syöty, lisätään madolle runko-osa
-    if (currentFoodX_ != latestFoodX_ and currentFoodY_ != latestFoodY_)
+    if (currentFoodX_ != latestFoodX_ || currentFoodY_ != latestFoodY_)
     {
         QPen bluePen(Qt::darkBlue);
         QBrush blueBrush(Qt::blue);
@@ -422,6 +429,7 @@ void MainWindow::getScores()
         highScoreLabel->setGeometry(10, 330+plus, 120, 20);
         plus += 25;
     }
+    scoreFile.close();
 }
 
 void MainWindow::saveScore()
@@ -431,7 +439,7 @@ void MainWindow::saveScore()
     if (playerScores_.size() < SCORES)
     {
         playerScores_.push_back({score_, playerName_});
-        if (playerScores_.size() < 5)
+        if (playerScores_.size() < HIGHSCORES)
         {
             scoreModified = true;
         }
@@ -440,24 +448,24 @@ void MainWindow::saveScore()
     else if (score_ > playerScores_.at(SCORES - 1).first)
     {
         playerScores_.at(SCORES - 1) = {score_, playerName_};
-        if (score_ > playerScores_.at(4).first)
+        if (score_ > playerScores_.at(HIGHSCORES - 1).first)
         {
             scoreModified = true;
         }
     }
     sort(playerScores_.rbegin(), playerScores_.rend());
 
-    if (scoreModified)
+    if (!scoreModified)
     {
-        std::ofstream scoreFile(SCOREFILE);
-        for (std::pair<int, std::string > playerScore : playerScores_)
-        {
-            scoreFile << playerScore.second << SPLITMARK << playerScore.first
-                      << std::endl;
-        }
-        getScores();
+        return;
     }
-
+    std::ofstream scoreFile(SCOREFILE);
+    for (std::pair<int, std::string > playerScore : playerScores_)
+    {
+        scoreFile << playerScore.second << SPLITMARK << playerScore.first
+                  << std::endl;
+    }
+    scoreFile.close();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
