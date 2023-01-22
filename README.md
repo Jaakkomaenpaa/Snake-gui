@@ -8,3 +8,5 @@ Peliin on lisätty vielä kurssin jälkeen uusi pisteytysjärjestelmä: pelaajie
 josta käyttöliittymä hakee tiedot ja esittää parhaat pistesaavutukset sekä niiden saajien nimimerkit. Pisteytys on vielä
 hieman keskeneräinen toiminto, sillä tällä hetkellä käyttöliittymä pitäisi sulkea jokaisen pelin jälkeen, jotta pisteet 
 tallentuisivat.
+
+Kommentointi on myös vielä vähäistä uusien ominaisuuksien kohdalta.
