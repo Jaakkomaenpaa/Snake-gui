@@ -1,3 +1,5 @@
+# Snake_gui
+
 Ohjelmointi 2 -kurssin viimeinen projekti. 
 
 Tehtävänantona oli rakentaa Qt-käyttöliittymä valmiiksi annetulle ASCII-grafiikalla terminaalissa pelattavalle matopelille.
